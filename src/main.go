@@ -2,12 +2,14 @@ package main
 
 import (
 	"api-viajei/src/configuration"
+	"api-viajei/src/database"
 
 	"github.com/gin-gonic/gin"
 )
 
 func init() {
 	configuration.LoadEnvVariables()
+	database.ConnectToDB()
 }
 
 func main() {
