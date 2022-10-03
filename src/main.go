@@ -2,22 +2,17 @@ package main
 
 import (
 	"api-viajei/src/configuration"
-
-	"github.com/gin-gonic/gin"
+	"api-viajei/src/database"
+	"api-viajei/src/routes"
 )
 
 func init() {
 	configuration.LoadEnvVariables()
+	database.ConnectToDB()
 }
 
 func main() {
-	r := gin.Default()
+	server := routes.LoadRouter()
 
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "OK",
-		})
-	})
-
-	r.Run()
+	server.Run()
 }
