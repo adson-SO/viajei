@@ -3,8 +3,7 @@ package main
 import (
 	"api-viajei/src/configuration"
 	"api-viajei/src/database"
-
-	"github.com/gin-gonic/gin"
+	"api-viajei/src/routes"
 )
 
 func init() {
@@ -13,13 +12,7 @@ func init() {
 }
 
 func main() {
-	r := gin.Default()
+	server := routes.LoadRouter()
 
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "OK",
-		})
-	})
-
-	r.Run()
+	server.Run()
 }
