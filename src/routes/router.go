@@ -1,15 +1,15 @@
 package routes
 
-import "github.com/gin-gonic/gin"
+import (
+	"api-viajei/src/controllers"
+
+	"github.com/gin-gonic/gin"
+)
 
 func LoadRouter() *gin.Engine {
 	router := gin.Default()
 
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "OK",
-		})
-	})
+	router.POST("/", controllers.UserController)
 
 	return router
 }
