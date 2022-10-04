@@ -21,7 +21,15 @@ func Signup(c *gin.Context) {
 		return
 	}
 
-	services.Signup(user)
+	resultError := services.Signup(user)
+
+	if resultError != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Bad Request",
+		})
+
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "OK",
