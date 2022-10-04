@@ -9,7 +9,10 @@ import (
 func LoadRouter() *gin.Engine {
 	router := gin.Default()
 
-	router.POST("/", controllers.UserController)
+	router.Group("api/v1")
+	{
+		router.POST("/signup", controllers.Signup)
+	}
 
 	return router
 }
