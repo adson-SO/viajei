@@ -1,6 +1,6 @@
 package dto
 
-type UserSignupReq struct {
+type UserSignReq struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }

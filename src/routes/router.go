@@ -12,6 +12,7 @@ func LoadRouter() *gin.Engine {
 	router.Group("api/v1")
 	{
 		router.POST("/signup", controllers.Signup)
+		router.POST("/signin", controllers.Signin)
 	}
 
 	return router

@@ -15,3 +15,15 @@ func Signup(email string, password []byte) error {
 
 	return nil
 }
+
+func FindUser(email string) (models.User, error) {
+	var user models.User
+	var err error
+	database.DB.First(&user, "email = ?", email)
+
+	if user.ID == 0 {
+		return models.User{}, err
+	}
+
+	return user, nil
+}
