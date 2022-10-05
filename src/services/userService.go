@@ -58,3 +58,9 @@ func FindUser(email string) (models.User, error) {
 
 	return user, nil
 }
+
+func FindUserById(id int64) models.User {
+	user := repository.FindUserById(id)
+
+	return user
+}

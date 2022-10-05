@@ -27,3 +27,10 @@ func FindUser(email string) (models.User, error) {
 
 	return user, nil
 }
+
+func FindUserById(id int64) models.User {
+	var user models.User
+	database.DB.First(&user, id)
+
+	return user
+}
