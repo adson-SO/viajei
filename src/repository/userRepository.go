@@ -5,15 +5,15 @@ import (
 	"api-viajei/src/models"
 )
 
-func Signup(email string, password []byte) error {
+func Signup(email string, password []byte) (uint, error) {
 	user := models.User{Email: email, Password: string(password)}
 	result := database.DB.Create(&user)
 
 	if result.Error != nil {
-		return result.Error
+		return 0, result.Error
 	}
 
-	return nil
+	return user.ID, nil
 }
 
 func FindUser(email string) (models.User, error) {

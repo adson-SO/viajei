@@ -4,44 +4,43 @@ import (
 	"api-viajei/src/dto"
 	"api-viajei/src/models"
 	"api-viajei/src/repository"
-	"os"
-	"time"
+	"api-viajei/src/utils"
 
-	"github.com/golang-jwt/jwt/v4"
 	"golang.org/x/crypto/bcrypt"
 )
 
-func Signup(user dto.UserSignReq) error {
+func Signup(user dto.UserSignReq) (string, error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), 10)
-
-	if err != nil {
-		return err
-	}
-
-	resultError := repository.Signup(user.Email, hash)
-
-	if resultError != nil {
-		return resultError
-	}
-
-	return nil
-}
-
-func Signin(userReq dto.UserSignReq) (string, error) {
-	email := userReq.Email
-	user, _ := FindUser(email)
-
-	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(userReq.Password))
 	if err != nil {
 		return "", err
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub": user.ID,
-		"exp": time.Now().Add(time.Hour * 24).Unix(),
-	})
+	userID, err := repository.Signup(user.Email, hash)
+	if err != nil {
+		return "", err
+	}
 
-	tokenString, err := token.SignedString([]byte(os.Getenv("SECRET")))
+	tokenString, err := utils.GenerateToken(userID)
+	if err != nil {
+		return "", err
+	}
+
+	return tokenString, nil
+}
+
+func Signin(userReq dto.UserSignReq) (string, error) {
+	email := userReq.Email
+	user, err := FindUser(email)
+	if err != nil {
+		return "", err
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(userReq.Password))
+	if err != nil {
+		return "", err
+	}
+
+	tokenString, err := utils.GenerateToken(user.ID)
 	if err != nil {
 		return "", err
 	}
