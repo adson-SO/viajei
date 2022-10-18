@@ -2,7 +2,6 @@ package routes
 
 import (
 	"api-viajei/src/controllers"
-	middleware "api-viajei/src/middlewares"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,7 +12,7 @@ func LoadRouter() *gin.Engine {
 	router.Group("api/v1")
 	{
 		router.POST("/signup", controllers.Signup)
-		router.POST("/signin", middleware.Auth, controllers.Signin)
+		router.POST("/signin", controllers.Signin)
 	}
 
 	return router
