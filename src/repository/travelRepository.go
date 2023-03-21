@@ -8,14 +8,11 @@ import (
 
 func CreateTravel(travelReq dto.TravelCreateReq) (uint, error) {
 	travel := models.Travel{
-		Title:       travelReq.Title,
+		Destination: travelReq.Destination,
 		Description: travelReq.Description,
-		InitialDate: travelReq.InitialDate,
-		EndDate:     travelReq.EndDate,
+		Date:        travelReq.Date,
 		Price:       travelReq.Price,
 		Type:        travelReq.Type,
-		Address:     travelReq.Address,
-		Tours:       travelReq.Tours,
 	}
 
 	result := database.DB.Create(&travel)
