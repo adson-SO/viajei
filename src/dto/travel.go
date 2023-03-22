@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-type TravelCreateReq struct {
+type TravelDTO struct {
 	Destination string    `json:"destination"`
 	Description string    `json:"description"`
 	Date        time.Time `json:"date"`

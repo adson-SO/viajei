@@ -6,7 +6,7 @@ import (
 	"api-viajei/src/models"
 )
 
-func CreateTravel(travelReq dto.TravelCreateReq) (uint, error) {
+func CreateTravel(travelReq dto.TravelDTO) (uint, error) {
 	travel := models.Travel{
 		Destination: travelReq.Destination,
 		Description: travelReq.Description,
@@ -22,4 +22,15 @@ func CreateTravel(travelReq dto.TravelCreateReq) (uint, error) {
 	}
 
 	return travel.ID, nil
+}
+
+func GetTravels(price float64, travelType string) ([]models.Travel, error) {
+	var travels []models.Travel
+	result := database.DB.Where("type = ? AND price BETWEEN 0 AND ?", travelType, price).Find(&travels)
+
+	if result.Error != nil {
+		return []models.Travel{}, result.Error
+	}
+
+	return travels, nil
 }
