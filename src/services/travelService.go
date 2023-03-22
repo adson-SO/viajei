@@ -4,6 +4,7 @@ import (
 	"api-viajei/src/dto"
 	"api-viajei/src/models"
 	"api-viajei/src/repository"
+	"strconv"
 )
 
 func CreateTravel(travelReq dto.TravelDTO) (uint, error) {
@@ -16,8 +17,14 @@ func CreateTravel(travelReq dto.TravelDTO) (uint, error) {
 	return travelId, nil
 }
 
-func GetTravels(price float64, travelType string) ([]models.Travel, error) {
-	result, err := repository.GetTravels(price, travelType)
+func GetTravels(price string, travelType string) ([]models.Travel, error) {
+	priceConverted, err := strconv.ParseFloat(price, 8)
+
+	if err != nil {
+		return []models.Travel{}, err
+	}
+
+	result, err := repository.GetTravels(priceConverted, travelType)
 
 	if err != nil {
 		return []models.Travel{}, err

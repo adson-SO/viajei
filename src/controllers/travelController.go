@@ -4,7 +4,6 @@ import (
 	"api-viajei/src/dto"
 	"api-viajei/src/services"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -36,15 +35,7 @@ func GetTravels(c *gin.Context) {
 	price := c.Query("price")
 	travelType := c.Query("type")
 
-	priceConverted, err := strconv.ParseFloat(price, 8)
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Bad Request",
-		})
-	}
-
-	result, err := services.GetTravels(float64(priceConverted), travelType)
+	result, err := services.GetTravels(price, travelType)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
