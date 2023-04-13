@@ -24,9 +24,9 @@ func CreateTravel(travelReq dto.TravelDTO) (uint, error) {
 	return travel.ID, nil
 }
 
-func GetTravels(price float64, travelType string) ([]models.Travel, error) {
+func GetTravels(query models.Travel) ([]models.Travel, error) {
 	var travels []models.Travel
-	result := database.DB.Where("type = ?", travelType).Where("price BETWEEN 0 AND ?", price).Find(&travels)
+	result := database.DB.Where(&query).Find(&travels)
 
 	if result.Error != nil {
 		return []models.Travel{}, result.Error

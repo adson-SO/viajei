@@ -18,17 +18,40 @@ func CreateTravel(travelReq dto.TravelDTO) (uint, error) {
 }
 
 func GetTravels(price string, travelType string) ([]models.Travel, error) {
-	priceConverted, err := strconv.ParseFloat(price, 8)
+	var priceFloat float64 = 0
 
-	if err != nil {
-		return []models.Travel{}, err
+	if price != "" {
+		priceConverted, err := strconv.ParseFloat(price, 8)
+
+		if err != nil {
+			return []models.Travel{}, err
+		}
+
+		priceFloat = priceConverted
 	}
 
-	result, err := repository.GetTravels(priceConverted, travelType)
+	var query = buildQuery(priceFloat, travelType)
+
+	result, err := repository.GetTravels(query)
 
 	if err != nil {
 		return []models.Travel{}, err
 	}
 
 	return result, nil
+}
+
+func buildQuery(price float64, travelType string) models.Travel {
+	var priceQuery float64 = 0
+	var travelTypeQuery string = ""
+
+	if price != 0 {
+		priceQuery = price
+	}
+
+	if travelType != "" {
+		travelTypeQuery = travelType
+	}
+
+	return models.Travel{Price: priceQuery, Type: travelTypeQuery}
 }
