@@ -41,6 +41,28 @@ func GetTravels(price string, travelType string) ([]models.Travel, error) {
 	return result, nil
 }
 
+func GetTravelsById(id string) ([]models.Travel, error) {
+	var idUint uint = 0
+
+	if id != "" {
+		idConverted, err := strconv.ParseUint(id, 10, 32)
+
+		if err != nil {
+			return []models.Travel{}, err
+		}
+
+		idUint = uint(idConverted)
+	}
+
+	result, err := repository.GetTravelsById(idUint)
+
+	if err != nil {
+		return []models.Travel{}, err
+	}
+
+	return result, nil
+}
+
 func buildQuery(price float64, travelType string) models.Travel {
 	var priceQuery float64 = 0
 	var travelTypeQuery string = ""

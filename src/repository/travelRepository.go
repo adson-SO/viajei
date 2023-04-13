@@ -34,3 +34,14 @@ func GetTravels(query models.Travel) ([]models.Travel, error) {
 
 	return travels, nil
 }
+
+func GetTravelsById(id uint) ([]models.Travel, error) {
+	var travels []models.Travel
+	result := database.DB.Where(&models.Travel{UserID: id}).Find(&travels)
+
+	if result.Error != nil {
+		return []models.Travel{}, result.Error
+	}
+
+	return travels, nil
+}

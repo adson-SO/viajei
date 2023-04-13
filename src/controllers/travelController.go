@@ -47,3 +47,19 @@ func GetTravels(c *gin.Context) {
 		"travels": result,
 	})
 }
+
+func GetTravelsById(c *gin.Context) {
+	id := c.Param("id")
+
+	result, err := services.GetTravelsById(id)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Internal Server Error",
+		})
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"travels": result,
+	})
+}

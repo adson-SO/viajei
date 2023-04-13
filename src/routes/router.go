@@ -10,12 +10,13 @@ import (
 func LoadRouter() *gin.Engine {
 	router := gin.Default()
 
-	router.Group("api/v1")
+	v1 := router.Group("api/v1")
 	{
-		router.POST("/signup", controllers.Signup)
-		router.POST("/signin", controllers.Signin)
-		router.POST("/travel", middleware.Auth, controllers.CreateTravel)
-		router.GET("/travel", middleware.Auth, controllers.GetTravels)
+		v1.POST("/signup", controllers.Signup)
+		v1.POST("/signin", controllers.Signin)
+		v1.POST("/travel", middleware.Auth, controllers.CreateTravel)
+		v1.GET("/travel", middleware.Auth, controllers.GetTravels)
+		v1.GET("/travel/:id", middleware.Auth, controllers.GetTravelsById)
 	}
 
 	return router
