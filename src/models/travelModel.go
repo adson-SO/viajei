@@ -13,5 +13,5 @@ type Travel struct {
 	Date        time.Time `json:"date"`
 	Price       float64   `json:"price"`
 	Type        string    `json:"type"`
-	UserID      uint
+	UserID      uint      `json:"userId"`
 }

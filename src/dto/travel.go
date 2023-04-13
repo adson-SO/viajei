@@ -10,4 +10,5 @@ type TravelDTO struct {
 	Date        time.Time `json:"date"`
 	Price       float64   `json:"price"`
 	Type        string    `json:"type"`
+	UserID      uint      `json:"userId"`
 }
