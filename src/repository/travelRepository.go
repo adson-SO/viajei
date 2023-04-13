@@ -6,7 +6,7 @@ import (
 	"api-viajei/src/models"
 )
 
-func CreateTravel(travelReq dto.TravelCreateReq) (uint, error) {
+func CreateTravel(travelReq dto.TravelDTO) (uint, error) {
 	travel := models.Travel{
 		Destination: travelReq.Destination,
 		Description: travelReq.Description,
@@ -22,4 +22,26 @@ func CreateTravel(travelReq dto.TravelCreateReq) (uint, error) {
 	}
 
 	return travel.ID, nil
+}
+
+func GetTravels(query models.Travel) ([]models.Travel, error) {
+	var travels []models.Travel
+	result := database.DB.Where(&query).Find(&travels)
+
+	if result.Error != nil {
+		return []models.Travel{}, result.Error
+	}
+
+	return travels, nil
+}
+
+func GetTravelsById(id uint) ([]models.Travel, error) {
+	var travels []models.Travel
+	result := database.DB.Where(&models.Travel{UserID: id}).Find(&travels)
+
+	if result.Error != nil {
+		return []models.Travel{}, result.Error
+	}
+
+	return travels, nil
 }
