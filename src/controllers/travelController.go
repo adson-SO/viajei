@@ -4,6 +4,7 @@ import (
 	"api-viajei/src/dto"
 	"api-viajei/src/services"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -27,7 +28,7 @@ func CreateTravel(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, gin.H{
-		"message": "Travel created with id: " + string(result),
+		"message": "Travel created with id: " + strconv.FormatUint(uint64(result), 10),
 	})
 }
 
