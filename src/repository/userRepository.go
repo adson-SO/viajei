@@ -28,9 +28,14 @@ func FindUser(email string) (models.User, error) {
 	return user, nil
 }
 
-func FindUserById(id int64) models.User {
+func FindUserById(id int64) (models.User, error) {
 	var user models.User
+	var err error
 	database.DB.First(&user, id)
 
-	return user
+	if user.ID == 0 {
+		return models.User{}, err
+	}
+
+	return user, nil
 }

@@ -16,6 +16,8 @@ func Signup(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Bad Request",
 		})
+
+		return
 	}
 
 	tokenString, userId, err := services.Signup(user)
@@ -23,6 +25,8 @@ func Signup(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Bad Request",
 		})
+
+		return
 	}
 
 	c.SetSameSite(http.SameSiteLaxMode)

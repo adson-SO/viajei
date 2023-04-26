@@ -9,7 +9,7 @@ import (
 
 func GenerateToken(id uint) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub": int64(id),
+		"sub": id,
 		"exp": time.Now().Add(time.Hour * 24).Unix(),
 	})
 

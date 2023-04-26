@@ -34,8 +34,8 @@ func Auth(c *gin.Context) {
 			c.AbortWithStatus(http.StatusUnauthorized)
 		}
 
-		user := services.FindUserById(int64(claims["sub"].(float64)))
-		if user.ID == 0 {
+		user, err := services.FindUserById(claims["sub"].(float64))
+		if err != nil {
 			c.AbortWithStatus(http.StatusUnauthorized)
 		}
 
