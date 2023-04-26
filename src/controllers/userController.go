@@ -16,6 +16,8 @@ func Signup(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Bad Request",
 		})
+
+		return
 	}
 
 	tokenString, userId, err := services.Signup(user)
@@ -23,6 +25,8 @@ func Signup(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Bad Request",
 		})
+
+		return
 	}
 
 	c.SetSameSite(http.SameSiteLaxMode)
@@ -42,13 +46,25 @@ func Signin(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Bad Request",
 		})
+
+		return
 	}
 
 	tokenString, userId, resultError := services.Signin(user)
 	if resultError != nil {
+		if tokenString == "Not Found" {
+			c.JSON(http.StatusNotFound, gin.H{
+				"message": "Not Found",
+			})
+
+			return
+		}
+
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Bad Request",
 		})
+
+		return
 	}
 
 	c.SetSameSite(http.SameSiteLaxMode)

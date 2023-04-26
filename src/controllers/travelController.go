@@ -17,6 +17,8 @@ func CreateTravel(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Bad Request",
 		})
+
+		return
 	}
 
 	result, err := services.CreateTravel(travel)
@@ -25,6 +27,8 @@ func CreateTravel(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Bad Request",
 		})
+
+		return
 	}
 
 	c.JSON(http.StatusCreated, gin.H{
@@ -42,6 +46,8 @@ func GetTravels(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "Internal Server Error",
 		})
+
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
@@ -52,12 +58,22 @@ func GetTravels(c *gin.Context) {
 func GetTravelsById(c *gin.Context) {
 	id := c.Param("id")
 
-	result, err := services.GetTravelsById(id)
+	result, err, resultString := services.GetTravelsById(id)
 
 	if err != nil {
+		if resultString != "" {
+			c.JSON(http.StatusNotFound, gin.H{
+				"message": "Not Found",
+			})
+
+			return
+		}
+
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "Internal Server Error",
 		})
+
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{

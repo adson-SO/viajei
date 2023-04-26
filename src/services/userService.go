@@ -32,7 +32,7 @@ func Signin(userReq dto.UserSignReq) (string, uint, error) {
 	email := userReq.Email
 	user, err := FindUser(email)
 	if err != nil {
-		return "", 0, err
+		return "Not Found", 0, err
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(userReq.Password))
@@ -58,8 +58,12 @@ func FindUser(email string) (models.User, error) {
 	return user, nil
 }
 
-func FindUserById(id int64) models.User {
-	user := repository.FindUserById(id)
+func FindUserById(id float64) (models.User, error) {
+	user, err := repository.FindUserById(int64(id))
 
-	return user
+	if err != nil {
+		return models.User{}, err
+	}
+
+	return user, nil
 }
