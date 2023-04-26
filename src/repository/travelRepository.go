@@ -13,6 +13,8 @@ func CreateTravel(travelReq dto.TravelDTO) (uint, error) {
 		Date:        travelReq.Date,
 		Price:       travelReq.Price,
 		Type:        travelReq.Type,
+		Photo:       travelReq.Photo,
+		UserID:      travelReq.UserID,
 	}
 
 	result := database.DB.Create(&travel)
