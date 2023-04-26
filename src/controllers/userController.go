@@ -52,6 +52,14 @@ func Signin(c *gin.Context) {
 
 	tokenString, userId, resultError := services.Signin(user)
 	if resultError != nil {
+		if tokenString == "Not Found" {
+			c.JSON(http.StatusNotFound, gin.H{
+				"message": "Not Found",
+			})
+
+			return
+		}
+
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Bad Request",
 		})

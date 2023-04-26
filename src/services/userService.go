@@ -32,7 +32,7 @@ func Signin(userReq dto.UserSignReq) (string, uint, error) {
 	email := userReq.Email
 	user, err := FindUser(email)
 	if err != nil {
-		return "", 0, err
+		return "Not Found", 0, err
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(userReq.Password))
