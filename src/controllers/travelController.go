@@ -15,7 +15,7 @@ func CreateTravel(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Bad Request",
+			"message": "Error getting data from request body",
 		})
 
 		return
@@ -25,7 +25,7 @@ func CreateTravel(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Bad Request",
+			"message": "Error creating travel in database",
 		})
 
 		return
