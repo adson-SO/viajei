@@ -38,9 +38,9 @@ func GetTravels(price string, travelType string) ([]models.Travel, error) {
 		priceFloat = priceConverted
 	}
 
-	var query = buildQuery(priceFloat, travelType)
+	var query = buildQuery(travelType)
 
-	result, err := repository.GetTravels(query)
+	result, err := repository.GetTravels(query, priceFloat)
 
 	if err != nil {
 		return []models.Travel{}, err
@@ -71,19 +71,14 @@ func GetTravelsById(id string) ([]models.Travel, error, string) {
 	return result, nil, ""
 }
 
-func buildQuery(price float64, travelType string) models.Travel {
-	var priceQuery float64 = 0
+func buildQuery(travelType string) models.Travel {
 	var travelTypeQuery string = ""
-
-	if price != 0 {
-		priceQuery = price
-	}
 
 	if travelType != "" {
 		travelTypeQuery = travelType
 	}
 
-	return models.Travel{Price: priceQuery, Type: travelTypeQuery}
+	return models.Travel{Type: travelTypeQuery}
 }
 
 func validateDateString(date string) bool {
