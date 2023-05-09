@@ -21,9 +21,9 @@ func CreateTravel(c *gin.Context) {
 		return
 	}
 
-	result, err := services.CreateTravel(travel)
+	result, err, status := services.CreateTravel(travel)
 
-	if err != nil {
+	if !status {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Error creating travel in database",
 		})

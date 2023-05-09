@@ -4,17 +4,25 @@ import (
 	"api-viajei/src/dto"
 	"api-viajei/src/models"
 	"api-viajei/src/repository"
+	"regexp"
 	"strconv"
 )
 
-func CreateTravel(travelReq dto.TravelDTO) (uint, error) {
+func CreateTravel(travelReq dto.TravelDTO) (uint, error, bool) {
+	var err error
+	isDateStringValid := validateDateString(travelReq.Date)
+
+	if !isDateStringValid {
+		return 0, err, false
+	}
+
 	travelId, err := repository.CreateTravel(travelReq)
 
 	if err != nil {
-		return 0, err
+		return 0, err, false
 	}
 
-	return travelId, nil
+	return travelId, nil, true
 }
 
 func GetTravels(price string, travelType string) ([]models.Travel, error) {
@@ -76,4 +84,10 @@ func buildQuery(price float64, travelType string) models.Travel {
 	}
 
 	return models.Travel{Price: priceQuery, Type: travelTypeQuery}
+}
+
+func validateDateString(date string) bool {
+	regex := regexp.MustCompile(`^((0)*[1-9]|1[012]|3[01])/((0)*[1-9]|1[012]|2[012]|3[01])/(19[0-9][0-9]|20[0-2][0-3])$`)
+
+	return regex.MatchString(date)
 }
