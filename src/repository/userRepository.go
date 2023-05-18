@@ -5,8 +5,8 @@ import (
 	"api-viajei/src/models"
 )
 
-func Signup(email string, password []byte) (uint, error) {
-	user := models.User{Email: email, Password: string(password)}
+func Signup(name string, email string, password []byte) (uint, error) {
+	user := models.User{Name: name, Email: email, Password: string(password)}
 	result := database.DB.Create(&user)
 
 	if result.Error != nil {

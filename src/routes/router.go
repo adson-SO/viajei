@@ -14,6 +14,7 @@ func LoadRouter() *gin.Engine {
 	{
 		v1.POST("/signup", controllers.Signup)
 		v1.POST("/signin", controllers.Signin)
+		v1.GET("/user/:id", middleware.Auth, controllers.FindUserById)
 		v1.POST("/travel", middleware.Auth, controllers.CreateTravel)
 		v1.GET("/travel", middleware.Auth, controllers.GetTravels)
 		v1.GET("/travel/:id", middleware.Auth, controllers.GetTravelsById)
