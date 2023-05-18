@@ -15,7 +15,7 @@ func Signup(user dto.UserSignReq) (string, uint, error) {
 		return "", 0, err
 	}
 
-	userID, err := repository.Signup(user.Email, hash)
+	userID, err := repository.Signup(user.Name, user.Email, hash)
 	if err != nil {
 		return "", 0, err
 	}
