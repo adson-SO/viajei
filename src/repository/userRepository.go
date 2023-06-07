@@ -39,3 +39,14 @@ func FindUserById(id int64) (models.User, error) {
 
 	return user, nil
 }
+
+func ResetPassword(email string, password string) error {
+	var user models.User
+	result := database.DB.Model(&user).Where("email = ?", email).Update("password", password)
+
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return nil
+}

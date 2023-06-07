@@ -18,6 +18,7 @@ func LoadRouter() *gin.Engine {
 		v1.POST("/travel", middleware.Auth, controllers.CreateTravel)
 		v1.GET("/travel", middleware.Auth, controllers.GetTravels)
 		v1.GET("/travel/:id", middleware.Auth, controllers.GetTravelsById)
+		v1.PUT("/user/reset-password", middleware.Auth, controllers.ResetPassword)
 	}
 
 	return router
