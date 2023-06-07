@@ -67,3 +67,25 @@ func FindUserById(id float64) (models.User, error) {
 
 	return user, nil
 }
+
+func ResetPassword(email string, password string) (error, string) {
+	_, err := FindUser(email)
+
+	if err != nil {
+		return err, "Not Found"
+	}
+
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), 10)
+
+	if err != nil {
+		return err, ""
+	}
+
+	err = repository.ResetPassword(email, string(hash))
+
+	if err != nil {
+		return err, ""
+	}
+
+	return nil, ""
+}

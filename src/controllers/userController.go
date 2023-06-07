@@ -105,3 +105,38 @@ func FindUserById(c *gin.Context) {
 		"userEmail": user.Email,
 	})
 }
+
+func ResetPassword(c *gin.Context) {
+	userResetPassword := dto.ResetPassword{}
+	err := c.Bind(&userResetPassword)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Bad Request",
+		})
+
+		return
+	}
+
+	err, message := services.ResetPassword(userResetPassword.Email, userResetPassword.Password)
+
+	if message == "Not Found" {
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": "Not Found",
+		})
+
+		return
+	}
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Bad Request",
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "OK",
+	})
+}
