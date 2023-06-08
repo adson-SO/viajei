@@ -10,18 +10,18 @@ import (
 
 func LoadRouter() *gin.Engine {
 	router := gin.Default()
-	router.Use(cors.Default())
+	router.Use(cors.New(cors.Config{
+		AllowAllOrigins: true,
+		AllowHeaders:    []string{"Authorization", "Content-Type"},
+	}))
 
-	v1 := router.Group("api/v1")
-	{
-		v1.POST("/signup", controllers.Signup)
-		v1.POST("/signin", controllers.Signin)
-		v1.GET("/user/:id", middleware.Auth, controllers.FindUserById)
-		v1.POST("/travel", middleware.Auth, controllers.CreateTravel)
-		v1.GET("/travel", middleware.Auth, controllers.GetTravels)
-		v1.GET("/travel/:id", middleware.Auth, controllers.GetTravelsById)
-		v1.PUT("/user/reset-password", middleware.Auth, controllers.ResetPassword)
-	}
+	router.POST("api/v1/signup", middleware.Cors, controllers.Signup)
+	router.POST("api/v1/signin", middleware.Cors, controllers.Signin)
+	router.GET("api/v1/user/:id", middleware.Cors, middleware.Auth, controllers.FindUserById)
+	router.POST("api/v1/travel", middleware.Cors, middleware.Auth, controllers.CreateTravel)
+	router.GET("api/v1/travel", middleware.Cors, middleware.Auth, controllers.GetTravels)
+	router.GET("api/v1/travel/:id", middleware.Cors, middleware.Auth, controllers.GetTravelsById)
+	router.PUT("api/v1/user/reset-password", middleware.Cors, middleware.Auth, controllers.ResetPassword)
 
 	return router
 }
