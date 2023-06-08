@@ -14,7 +14,10 @@ import (
 func Auth(c *gin.Context) {
 	tokenString, err := c.Cookie("Authorization")
 	if err != nil {
-		c.AbortWithStatus(http.StatusUnauthorized)
+		tokenString = c.GetHeader("Authorization")
+		if tokenString == "" {
+			c.AbortWithStatus(http.StatusUnauthorized)
+		}
 	}
 
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
