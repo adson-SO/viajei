@@ -82,7 +82,7 @@ func buildQuery(travelType string) models.Travel {
 }
 
 func validateDateString(date string) bool {
-	regex := regexp.MustCompile(`^((0)*[1-9]|1[012]|3[01])/((0)*[1-9]|1[012]|2[012]|3[01])/(19[0-9][0-9]|20[0-2][0-3])$`)
+	regex := regexp.MustCompile(`^((0)*[1-9]|1[0-9]|2[0-9]|3[01])/((0)*[1-9]|1[012])/(19[0-9][0-9]|20[0-2][0-3])$`)
 
 	return regex.MatchString(date)
 }
